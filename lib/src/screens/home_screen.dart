@@ -14,6 +14,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   GatosService gatosService = GatosService();
   List<GatoModel> listGatos = [];
+  final controller = TextEditingController();
+  String palabraBusqueda = '';
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +55,27 @@ class _HomeScreenState extends State<HomeScreen> {
             } else {
               return Column(
                 children: [
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
                   //Campo de Busqueda
-                  //Row(),
+                  TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      labelText: 'Buscar:',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      suffixIcon: Icon(
+                        Icons.search_outlined,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      print(value);
+                      setState(() {
+                        palabraBusqueda = value;
+                      });
+                    },
+                  ),
                   //Inicio de Lista de Gatos
                   SizedBox(height: 5),
                   Expanded(
@@ -81,117 +101,128 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final colores = Theme.of(context).colorScheme;
 
-    return Card(
-      elevation: 1.0,
-      clipBehavior: Clip.hardEdge,
-      color: colores.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 350,
-            child: Image.network(
-              nombreImagen,
-              fit: BoxFit.cover,
-              alignment: Alignment.topCenter,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset('assets/images/img_error.jpg');
-              },
-            ),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: ElevatedButton(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('More'),
-                  Icon(Icons.more_horiz_outlined),
-                ],
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DetalleScren(gato)),
-                );
-              },
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 50, 50),
-              child: Text(
-                ' ${gato.name}    ',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
-                    backgroundColor: const Color.fromARGB(68, 187, 222, 251)),
+    if (buscarGato(gato)) {
+      return Card(
+        elevation: 1.0,
+        clipBehavior: Clip.hardEdge,
+        color: colores.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 350,
+              child: Image.network(
+                nombreImagen,
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset('assets/images/img_error.jpg');
+                },
               ),
             ),
-          ),
-          Positioned(
-            top: 290,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(5),
-              color: Color.fromARGB(105, 1, 12, 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 5,
-                        child: Text(
-                          'Country:',
+            Align(
+              alignment: Alignment.topRight,
+              child: ElevatedButton(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('More'),
+                    Icon(Icons.more_horiz_outlined),
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetalleScren(gato)),
+                  );
+                },
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 50, 50),
+                child: Text(
+                  ' ${gato.name}    ',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30.0,
+                      backgroundColor: const Color.fromARGB(68, 187, 222, 251)),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 290,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(5),
+                color: Color.fromARGB(105, 1, 12, 20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 5,
+                          child: Text(
+                            'Country:',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.white),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 5,
+                          child: Text(
+                            'Intelligence:',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          gato.countryCode.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                               color: Colors.white),
                         ),
-                      ),
-                      Flexible(
-                        flex: 5,
-                        child: Text(
-                          'Intelligence:',
+                        Text(
+                          gato.intelligence.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                               color: Colors.white),
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        gato.countryCode.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        gato.intelligence.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            color: Colors.white),
-                      )
-                    ],
-                  )
-                ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  bool buscarGato(GatoModel gato) {
+    final cadenaBusquedaGato = gato.name.toLowerCase();
+    final inputGato = palabraBusqueda.toLowerCase();
+
+    return cadenaBusquedaGato.contains(inputGato);
   }
 }
