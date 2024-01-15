@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gatubelos_app/src/models/gato_model.dart';
+import 'package:gatubelos_app/src/screens/detalle_screen.dart';
 import 'package:gatubelos_app/src/services/gatos_service.dart';
 
 //Pantalla de Inicio o Home de la App
@@ -76,8 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _crearItem(BuildContext context, GatoModel gato) {
     String baseUrlImg = "https://cdn2.thecatapi.com/images/";
-    String nombreImagen =
-        baseUrlImg + gato.referenceImageId.toString() + '.jpg';
+    String nombreImagen = '$baseUrlImg${gato.referenceImageId}.jpg';
 
     final colores = Theme.of(context).colorScheme;
 
@@ -108,33 +108,90 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Más'),
+                  Text('More'),
                   Icon(Icons.more_horiz_outlined),
                 ],
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DetalleScren(gato)),
+                );
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 50, 50),
+              child: Text(
+                ' ${gato.name}    ',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.0,
+                    backgroundColor: const Color.fromARGB(68, 187, 222, 251)),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 290,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(5),
+              color: Color.fromARGB(105, 1, 12, 20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 5,
+                        child: Text(
+                          'Country:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Flexible(
+                        flex: 5,
+                        child: Text(
+                          'Intelligence:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        gato.countryCode.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        gato.intelligence.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.white),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ],
       ),
-      /*
-      //ListTile(
-        tileColor: Colors.green[50],
-        title: Text('${gato.id} ${gato.name}',
-            style: TextStyle(
-              color: Colors.blueGrey,
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-            )),
-        subtitle: Text(
-            'País: ${gato.countryCode}\n Inteligencia: ${gato.intelligence}',
-            style: TextStyle(
-              color: Colors.blueGrey,
-              //fontWeight: FontWeight.bold,
-              fontSize: 12.0,
-            )),
-      ),
-      */
     );
   }
 }
