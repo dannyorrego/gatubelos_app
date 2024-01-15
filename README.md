@@ -1,17 +1,14 @@
 # gatubelos_app
 
-A new Flutter project.
+Proyecto construido en Flutter
+por: Dany Alexander Orrego
+email: danny.orrego@gmail.com
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Se presenta un video de su funcionamiento:
 
-A few resources to get you started if this is your first Flutter project:
+- [Video en mp4 del funcionamiento de la ](https://drive.google.com/file/d/1dWsQ49aM7AbsbouJa8rYYv8RXd4d6MuK/view?usp=sharing)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # gatubelos_app
